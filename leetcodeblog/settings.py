@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '%^ui!2d=zhx312%mc$ur%33xk_0g3jhlvw&!j*35wzn_kh3pjx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -127,6 +127,13 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Media root for uploaded files
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = (
+    BASE_DIR + MEDIA_URL
+)
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
@@ -139,4 +146,4 @@ STATICFILES_DIRS = (
     # Don't forget to use absolute paths, not relative paths.
     BASE_DIR + STATIC_URL,
 )
-STATIC_ROOT = '/Users/tanxin_rMBP/Workplace/UCSC/Fall_Quarter/Python_course/leetcodeblog/static'
+# STATIC_ROOT = '/Users/tanxin_rMBP/Workplace/UCSC/Fall_Quarter/Python_course/leetcodeblog/static'
