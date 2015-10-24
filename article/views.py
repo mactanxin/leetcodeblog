@@ -20,12 +20,13 @@ import json, sys, datetime
 from django.db import connections
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from tools import *
 
 
 # Create your views here.
 
 def home(request):
-    posts = Article.objects.order_by('-date_time')[:5]
+    posts = Article.objects.order_by('-date_time')
     paginator = Paginator(posts, 5)
     page = request.GET.get('page')
     try :
@@ -58,37 +59,8 @@ def contact(request):
         name = request.POST.get('name')
         email = request.POST.get('email')
         message = request.POST.get('message')
-        ip = __get_client_ip(request)
+        ip = get_client_ip(request)
         if name and email and message and ip:
             msg = EmailMessage.objects.create(name = name, email_address = email, message = message, ip_address = ip)
             msg.save()
     return render_to_response("contact.html", context_instance=RequestContext(request))
-
-def __get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
-    else:
-        ip = request.META.get('REMOTE_ADDR')
-    return ip
-
-
-def __get_last_email_from_this_ip(ip_address):
-    try:
-        if EmailMessage.objects.filter(ip_address=ip_address):
-            em = EmailMessage.objects.filter(ip_address=ip_address)[0]
-            return em
-    except:
-        return False
-
-def __send_email(name,message,email):
-    if subject and message and from_email:
-        try:
-            send_mail(subject, message, from_email, ['admin@example.com'])
-        except BadHeaderError:
-            return HttpResponse('Invalid header found.')
-        return HttpResponseRedirect('/contact/thanks/')
-    else:
-        # In reality we'd use a form class
-        # to get proper validation errors.
-        return HttpResponse('Make sure all fields are entered and valid.')
