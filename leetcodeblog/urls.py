@@ -21,6 +21,8 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from article.views import *
+from django.views.decorators.cache import cache_page
 
 urlpatterns = patterns('',
     # Examples:
@@ -28,7 +30,8 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),  #可以使用设置好的url进入网站后台
-    url(r'^$', 'article.views.home'),
+    # url(r'^$', IndexView.as_view()),
+    url(r'^$', cache_page(60 * 15)(IndexView.as_view())),
     url(r'^(?P<pid>\d+)/$', 'article.views.detail', name='detail'),
     url(r'^about', 'article.views.aboutme'),
     url(r'^archives','article.views.archives'),

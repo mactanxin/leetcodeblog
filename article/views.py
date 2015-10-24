@@ -21,21 +21,25 @@ from django.db import connections
 from django.http import Http404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from tools import *
+from django.views.decorators.cache import cache_page
+from django.views.generic import View
 
 
 # Create your views here.
 
-def home(request):
-    posts = Article.objects.order_by('-date_time')
-    paginator = Paginator(posts, 5)
-    page = request.GET.get('page')
-    try :
-        post_list = paginator.page(page)
-    except PageNotAnInteger :
-        post_list = paginator.page(1)
-    except EmptyPage :
-        post_list = paginator.paginator(paginator.num_pages)
-    return render_to_response("index.html", {'post_list' : post_list}, context_instance=RequestContext(request))
+# @cache_page(60 * 15)
+class IndexView(View):
+    def get(self, request, *args, **kwargs):
+        posts = Article.objects.order_by('-date_time')
+        paginator = Paginator(posts, 5)
+        page = request.GET.get('page')
+        try :
+            post_list = paginator.page(page)
+        except PageNotAnInteger :
+            post_list = paginator.page(1)
+        except EmptyPage :
+            post_list = paginator.paginator(paginator.num_pages)
+        return render_to_response("index.html", {'post_list' : post_list}, context_instance=RequestContext(request))
 
 def detail(request, pid):
     try:
@@ -44,6 +48,7 @@ def detail(request, pid):
         raise Http404
     return render_to_response("post.html", {'post' : post}, context_instance=RequestContext(request))
 
+@cache_page(60 * 15)
 def archives(request) :
     try:
         posts = Article.objects.all()
@@ -51,9 +56,11 @@ def archives(request) :
         raise Http404
     return render(request, 'archives.html', {'posts' : posts, 'error' : False})
 
+@cache_page(60 * 15)
 def aboutme(request):
     return render_to_response("about.html", context_instance=RequestContext(request))
 
+@cache_page(60 * 15)
 def contact(request):
     if request.method == "POST":
         name = request.POST.get('name')
