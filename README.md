@@ -26,4 +26,4 @@ wsgiref==0.1.2
 You can find me on [Twitter](https://twitter.com/mactanxin).
 
 ##License
-LeetCodeblog is released under the [MIT license](https://github.com/robbyrussell/oh-my-zsh/blob/master/MIT-LICENSE.txt).
+LeetCodeblog is released under the [MIT license](https://github.com/mactanxin/leetcodeblog/blob/master/license.md).
