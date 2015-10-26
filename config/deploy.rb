@@ -1,8 +1,72 @@
 # config valid only for current version of Capistrano
 lock '3.4.0'
+require 'capistrano-rbenv'
+load 'deploy/assets'
+ssh_options[:port] = 22022
 
-set :application, 'my_app_name'
+set :copy_local_tar, "/usr/bin/tar" if RUBY_PLATFORM.match(/darwin/)
+set :application, 'leetcodeblog'
+set :repository, "."
+set :scm, :none
+set :deploy_via, :copy
 set :repo_url, 'git@example.com:me/my_repo.git'
+
+SERVER_TEST = "10.103.13.81"
+
+
+set(:server_type) {
+  puts "== 测试服务器是：  81 "
+  puts "== 部署mpcms "
+  Capistrano::CLI.ui.ask("== which server do you want to deploy to? (81)? ")
+}
+case server_type.chomp
+  when '81'
+    server = SERVER_TEST
+    password = 'yXuGXzEBdd3e'
+end
+puts "== password for #{server} is: #{password}"
+
+role :web, server
+role :app, server
+role :db,  server, :primary => true
+role :db,  server
+
+set :deploy_to, "/opt/app/python/leetcodeblog"
+cms_shared_path = "/opt/app/python/leetcodeblog/shared"
+deploy_to_path = "/opt/app/python/leetcodeblog"
+default_run_options[:pty] = true
+
+# change to your username
+set :user, "root"
+
+namespace :deploy do
+  task :start do
+   # run 'uwsgi -x django.xml'
+    puts "start"
+  end
+  task :stop do
+    puts "stop"
+  end
+  task :restart, :roles => :app, :except => { :no_release => true } do
+    run "touch /opt/app/python/mpcms/current"
+  end
+
+   namespace :assets do
+    task :precompile do
+    end
+  end
+end
+
+desc "Copy setting.py to release_path"
+task :cp_setting_py do
+  puts "=== executing my customized command: "
+  run "cp -r #{shared_path}/settings.py #{release_path}/mpcms/"
+  run "cp -r #{shared_path}/settings_for_fetch.py #{release_path}/scripts/"
+  run "chmod -R 777 #{shared_path}"
+  puts "=== done (executing my customized command)"
+end
+
+before "deploy:assets:precompile", :cp_setting_py
 
 # Default branch is :master
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
@@ -34,15 +98,3 @@ set :repo_url, 'git@example.com:me/my_repo.git'
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
-namespace :deploy do
-
-  after :restart, :clear_cache do
-    on roles(:web), in: :groups, limit: 3, wait: 10 do
-      # Here we can do anything such as:
-      # within release_path do
-      #   execute :rake, 'cache:clear'
-      # end
-    end
-  end
-
-end
