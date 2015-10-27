@@ -147,3 +147,4 @@ STATICFILES_DIRS = (
     BASE_DIR + STATIC_URL,
 )
 # STATIC_ROOT = '/Users/tanxin_rMBP/Workplace/UCSC/Fall_Quarter/Python_course/leetcodeblog/static'
+STATIC_ROOT = os.path.join(BASE_DIR, "server_static/")
