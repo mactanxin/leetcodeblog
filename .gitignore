@@ -58,3 +58,5 @@ target/
 
 # Capistrano Deploy files
 config/
+server_static/
+settings.py

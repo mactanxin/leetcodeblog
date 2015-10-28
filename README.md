@@ -22,6 +22,13 @@ uWSGI==2.0.11.2
 wsgiref==0.1.2
 ```
 
+##deploy on CentOS7
+```shell
+sudo yum install python-devel
+sudo yum install mysql-devel
+sudo yum install gcc
+```
+
 ##Follow Me
 You can find me on [Twitter](https://twitter.com/mactanxin).
 
