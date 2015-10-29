@@ -14,12 +14,12 @@ class Article(models.Model):
     )
     title = models.CharField(max_length = 100)
     subtitle = models.CharField(max_length = 200, null = True)
-    leedindex = models.IntegerField(null = True)
-    category = models.CharField(max_length = 50, blank = True, null = True)
+    leedindex = models.IntegerField(blank = True, null = True)
+    category = models.CharField(max_length = 50, blank = True, default = '')
     date_time = models.DateTimeField(auto_now_add = True)
-    content = models.TextField(blank = True, null = True)
+    content = models.TextField(default = '', null = True)
     # content = RichTextField()
-    difficulty = models.CharField(max_length=1, choices=DIFFICULTY, null = True)
+    difficulty = models.CharField(max_length=1, choices=DIFFICULTY,default = '', null = True)
     #p.get_shirt_size_display()
 
     def __unicode__(self):
