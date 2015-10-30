@@ -58,3 +58,6 @@ target/
 
 # Capistrano Deploy files
 config/
+
+# Mac Index Cache
+.DS_Store
