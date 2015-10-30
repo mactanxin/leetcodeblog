@@ -33,19 +33,19 @@
                 <hr>
                 {% endfor %}
                 <hr>
-                
+
                 <!-- Pager -->
                 {% if post_list.object_list and post_list.paginator.num_pages > 1 %}
                   <ul class="pager">
                     {% if post_list.has_previous %}
                     <li class="next">
-                      <a href="?page={{ post_list.previous_page_number }}">NEWER</a>
+                      <a href="?page={{ post_list.previous_page_number }}">&larr; NEWER</a>
                     </li>
                     {% endif %}
 
                     {% if post_list.has_next %}
                     <li class="next">
-                      <a href="?page={{ post_list.next_page_number }}">OLDER</a>
+                      <a href="?page={{ post_list.next_page_number }}">OLDER &rarr;</a>
                     </li>
                     {% endif %}
                   </ul>
