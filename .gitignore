@@ -60,4 +60,6 @@ target/
 config/
 
 # Mac Index Cache
-.DS_Store
+*.DS_Store
+server_static/
+settings.py
