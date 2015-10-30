@@ -58,7 +58,8 @@ python manage.py createsuperuser
 ```
 
 ## Follow Me
-You can find me on [Twitter].
+You can find me on [Twitter](https://twitter.com/mactanxin).
 
 ## License
-LeetCodeblog is released under the [MIT license].
+LeetCodeblog is released under the [MIT license](https://github.com/mactanxin/leetcodeblog/blob/master/license.md).
+
