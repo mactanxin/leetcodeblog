@@ -62,4 +62,4 @@ config/
 # Mac Index Cache
 *.DS_Store
 server_static/
-settings.py
+*settings.py
