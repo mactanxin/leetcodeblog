@@ -26,7 +26,7 @@ from django.views.decorators.cache import cache_page
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),  #added admin site
-    url(r'^$', cache_page(60 * 15)(IndexView.as_view())),
+    url(r'^$', cache_page(60 * 5)(IndexView.as_view())),
     url(r'^(?P<pid>\d+)/$', 'article.views.detail', name='detail'),
     url(r'^about', 'article.views.aboutme'),
     url(r'^archives','article.views.archives'),
@@ -34,7 +34,7 @@ urlpatterns = patterns('',
     url(r'^summernote/', include('django_summernote.urls')),
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 from django.conf import settings
 if settings.DEBUG is False:

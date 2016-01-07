@@ -27,7 +27,7 @@ from django.views.generic import View
 
 # Create your views here.
 
-# @cache_page(60 * 15)
+##@cache_page(60 * 5)
 class IndexView(View):
     def get(self, request, *args, **kwargs):
         posts = Article.objects.order_by('-date_time')
